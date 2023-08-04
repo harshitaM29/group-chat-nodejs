@@ -9,14 +9,19 @@ router.get('/',(req,res,next) => {
         if(err) {
           console.log(err)
         }
-        res.send(`<h1>${data}</h1> <form action="/send" method="POST"><input type="text" name="chat"><button type="submit">Send</button></form>`);
+        res.send(`<h1>${data}</h1> <form action="/send" method="POST" onsubmit="document.getElementById('username').value =localStorage.getItem('username');">
+        <input type="text" name="chat">
+        <input type="hidden" id="username" name="username">
+        <button type="submit">
+        Send</button></form>`);
        
         });
    
 });
 
 router.post('/send',(req,res,next) => {
-   fs.appendFile('message.txt',Object.values(req.body).toString(),(err) => {
+ 
+   fs.appendFile('message.txt',`${req.body.username} : ${req.body.chat}`,(err) => {
         res.status(302)
         
         return res.end();

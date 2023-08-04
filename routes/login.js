@@ -1,22 +1,17 @@
 const express = require('express');
 const fs = require('fs');
-const localStorage = require("localStorage");
+const store = require('store')
 const router = express.Router();
 
 router.get('/login',(req,res,next) => {
-    res.send('<form action="/chat" method="POST"><input type="text" name="username"><button type="submit">Login</button></form>')
+    res.send(`<form action="/login" onsubmit="localStorage.setItem('username',document.getElementById('username').value);" method="POST"><input id="username" type="text" name="username"><button type="submit">Login</button></form>`)
    
 });
 
-router.post('/chat',(req,res,next) => {
- 
-   fs.writeFile('username.txt',Object.values(req.body).toString(),(err) => {
-        res.status(302)
-        
-        return res.end();
-   })
+router.post('/login',(req,res,next) => {
+   
     res.redirect('/')
 })
-localStorage.setItem("hi","hi")
+
 module.exports = router;
 
